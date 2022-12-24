@@ -5,11 +5,11 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from "../contexts/AutoConnectProvider";
 import NetworkSwitcher from "./NetworkSwitcher";
 
-export const AppBar: FC = (props) => {
+export const AppBar: FC = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();
 
     return (
-        <div>
+        <>
             {/* NavBar / Header */}
             <div className="navbar flex flex-row md:mb-2 shadow-lg bg-neutral text-neutral-content">
                 <div className="navbar-start">
@@ -169,7 +169,6 @@ export const AppBar: FC = (props) => {
                     </div>
                 </div>
             </div>
-            {props.children}
-        </div>
+        </>
     );
 };

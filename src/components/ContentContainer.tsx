@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import Link from "next/link";
-export const ContentContainer: FC = (props) => {
+export const ContentContainer: FC<{ children: ReactNode }> = (props) => {
     return (
         <div className="flex-1 drawer h-52">
             {/* <div className="h-screen drawer drawer-mobile w-full"> */}
