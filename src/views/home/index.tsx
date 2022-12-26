@@ -1,30 +1,17 @@
 // Next, React
-import { FC, useEffect, useState } from "react";
-import Link from "next/link";
+import { FC } from "react";
 
 // Wallet
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-// Components
-import { RequestAirdrop } from "../../components/RequestAirdrop";
 import pkg from "../../../package.json";
+import { bikes } from "data/bikes";
+import BikeCard from "components/BikeCard";
 
-// Store
-import useUserSOLBalanceStore from "../../stores/useUserSOLBalanceStore";
+const bikesData = bikes;
 
 export const HomeView: FC = ({}) => {
     const wallet = useWallet();
-    const { connection } = useConnection();
-
-    const balance = useUserSOLBalanceStore((s) => s.balance);
-    const { getUserSOLBalance } = useUserSOLBalanceStore();
-
-    useEffect(() => {
-        if (wallet.publicKey) {
-            console.log(wallet.publicKey.toBase58());
-            getUserSOLBalance(wallet.publicKey, connection);
-        }
-    }, [wallet.publicKey, connection, getUserSOLBalance]);
 
     return (
         <div className="md:hero mx-auto p-4">
@@ -38,12 +25,20 @@ export const HomeView: FC = ({}) => {
                 <h4 className="md:w-full text-center text-slate-300 my-2">
                     <p>Sell your bike without being on site.</p>
                     <p>Or buy a bike directly on the street.</p>
-                    Connect your wallet and let's go.
                 </h4>
                 {wallet.connected ? (
-                    <div>Connected</div>
+                    <div className="mx-auto max-w-2xl py-4 px-4 sm:py-8 sm:px-6 lg:max-w-7xl lg:px-8">
+                        <h2 className="mb-4 text-2xl font-bold tracking-tight text-white">
+                            Bikes for Sale
+                        </h2>
+                        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                            {bikesData.map((data) => {
+                                return <BikeCard data={data} />;
+                            })}
+                        </div>
+                    </div>
                 ) : (
-                    <div>Disconnected</div>
+                    <div>Connect your wallet and let's go.</div>
                 )}
             </div>
         </div>
