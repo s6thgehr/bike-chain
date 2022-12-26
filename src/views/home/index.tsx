@@ -7,6 +7,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import pkg from "../../../package.json";
 import { bikes } from "data/bikes";
 import BikeCard from "components/BikeCard";
+import Link from "next/link";
 
 const bikesData = bikes;
 

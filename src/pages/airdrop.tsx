@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { AirdropView } from "views/airdrop";
+import { AirdropView } from "../views";
 
 const Airdrop: NextPage = () => {
     return (
