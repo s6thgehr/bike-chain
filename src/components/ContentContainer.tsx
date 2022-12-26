@@ -1,6 +1,9 @@
 import { FC, ReactNode } from "react";
 import Link from "next/link";
+import { useWallet } from "@solana/wallet-adapter-react";
 export const ContentContainer: FC<{ children: ReactNode }> = (props) => {
+    const wallet = useWallet();
+
     return (
         <div className="flex-1 drawer h-52">
             {/* <div className="h-screen drawer drawer-mobile w-full"> */}
@@ -21,6 +24,11 @@ export const ContentContainer: FC<{ children: ReactNode }> = (props) => {
                     <li>
                         <Link href="/">Home</Link>
                     </li>
+                    {wallet.connected && (
+                        <li>
+                            <Link href="your-bikes">Your bikes</Link>
+                        </li>
+                    )}
                     <li>
                         <Link href="/basics">Airdrop</Link>
                     </li>

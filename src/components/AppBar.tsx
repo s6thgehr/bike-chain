@@ -4,9 +4,11 @@ import Link from "next/link";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from "../contexts/AutoConnectProvider";
 import NetworkSwitcher from "./NetworkSwitcher";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export const AppBar: FC = () => {
     const { autoConnect, setAutoConnect } = useAutoConnect();
+    const wallet = useWallet();
 
     return (
         <>
@@ -107,6 +109,13 @@ export const AppBar: FC = () => {
                                 Home
                             </div>
                         </Link>
+                        {wallet.connected && (
+                            <Link href="/your-bikes">
+                                <div className="btn btn-ghost btn-sm rounded-btn">
+                                    Your bikes
+                                </div>
+                            </Link>
+                        )}
                         <Link href="/airdrop">
                             <div className="btn btn-ghost btn-sm rounded-btn">
                                 Airdrop
