@@ -33,7 +33,8 @@ export const AppBar: FC = () => {
                     </label>
 
                     <div className="hidden sm:inline w-22 h-22 md:p-2">
-                        <svg
+                        BIKE CHAIN
+                        {/* <svg
                             width="100%"
                             height="22"
                             viewBox="0 0 646 96"
@@ -94,7 +95,7 @@ export const AppBar: FC = () => {
                                     />
                                 </clipPath>
                             </defs>
-                        </svg>
+                        </svg> */}
                     </div>
                 </div>
 
@@ -106,9 +107,9 @@ export const AppBar: FC = () => {
                                 Home
                             </div>
                         </Link>
-                        <Link href="/basics">
+                        <Link href="/airdrop">
                             <div className="btn btn-ghost btn-sm rounded-btn">
-                                Basics
+                                Airdrop
                             </div>
                         </Link>
                     </div>

@@ -22,7 +22,7 @@ export const ContentContainer: FC<{ children: ReactNode }> = (props) => {
                         <Link href="/">Home</Link>
                     </li>
                     <li>
-                        <Link href="/basics">Basics</Link>
+                        <Link href="/basics">Airdrop</Link>
                     </li>
                 </ul>
             </div>

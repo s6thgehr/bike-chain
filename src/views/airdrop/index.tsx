@@ -1,5 +1,5 @@
 // Next, React
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import Link from "next/link";
 
 // Wallet
@@ -12,7 +12,7 @@ import pkg from "../../../package.json";
 // Store
 import useUserSOLBalanceStore from "../../stores/useUserSOLBalanceStore";
 
-export const HomeView: FC = ({}) => {
+export const AirdropView: FC = ({}) => {
     const wallet = useWallet();
     const { connection } = useConnection();
 
@@ -36,15 +36,22 @@ export const HomeView: FC = ({}) => {
                     </span>
                 </h1>
                 <h4 className="md:w-full text-center text-slate-300 my-2">
-                    <p>Sell your bike without being on site.</p>
-                    <p>Or buy a bike directly on the street.</p>
-                    Connect your wallet and let's go.
+                    <p>Get some Sol and test out this awesome dapp.</p>
                 </h4>
-                {wallet.connected ? (
-                    <div>Connected</div>
-                ) : (
-                    <div>Disconnected</div>
-                )}
+                {/* <div className="max-w-md mx-auto mockup-code bg-primary p-6 my-2">
+                        <pre data-prefix=">">
+                            <code className="truncate">
+                                Start building on Solana{" "}
+                            </code>
+                        </pre>
+                    </div> */}
+                <div className="text-center">
+                    <RequestAirdrop />
+                    {/* {wallet.publicKey && <p>Public Key: {wallet.publicKey.toBase58()}</p>} */}
+                    {wallet && (
+                        <p>SOL Balance: {(balance || 0).toLocaleString()}</p>
+                    )}
+                </div>
             </div>
         </div>
     );
