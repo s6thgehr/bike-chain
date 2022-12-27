@@ -5,7 +5,7 @@ export const ContentContainer: FC<{ children: ReactNode }> = (props) => {
     const wallet = useWallet();
 
     return (
-        <div className="flex-1 drawer h-52">
+        <div className="flex-1 drawer h-full">
             {/* <div className="h-screen drawer drawer-mobile w-full"> */}
             <input
                 id="my-drawer"
