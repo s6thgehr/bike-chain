@@ -39,7 +39,7 @@ export const HomeView: FC = ({}) => {
                         </div>
                     </div>
                 ) : (
-                    <div>Connect your wallet and let's go.</div>
+                    <div>Connect your wallet and let's go!</div>
                 )}
             </div>
         </div>
