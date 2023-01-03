@@ -1,0 +1,23 @@
+{
+    "mintAddress": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
+    "mintAccount": {
+        "model": "mint",
+        "address": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
+        "mintAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
+        "freezeAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
+        "decimals": 0,
+        "supply": {
+            "basisPoints": "01",
+            "currency": {
+                "symbol": "BKC",
+                "decimals": 0,
+                "namespace": "spl-token"
+            }
+        },
+        "isWrappedSol": false,
+        "currency": { "symbol": "BKC", "decimals": 0, "namespace": "spl-token" }
+    },
+    "tokenMetadata": "GPnWmX87UX24U5xe2quf5hAMKtMvpvfAfLG42jdpNkeG",
+    "imageUri": "https://arweave.net/ntpHqG1HKYvJr3-KHu348lKPohY9b-LcajMj-goNtNI",
+    "metadataUri": "https://arweave.net/ySS78cjfcaTRyzw2pOKaasR9CELJ0S3z5If5eJaQyfs"
+}
