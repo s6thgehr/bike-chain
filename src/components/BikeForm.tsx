@@ -51,8 +51,8 @@ function BikeForm({ formData, handleSubmit }) {
                             <option value={""}>Choose type</option>
                             {Object.values(BikeType).map((type, index) => {
                                 return (
-                                    <option key={index} value={type.toString()}>
-                                        {type.toString()}
+                                    <option key={index} value={type}>
+                                        {type}
                                     </option>
                                 );
                             })}
