@@ -1241,10 +1241,10 @@
     "@solana/wallet-adapter-base" "^0.9.20"
     "@solana/wallet-adapter-react" "^0.15.27"
 
-"@solana/wallet-adapter-react@^0.15.27":
-  version "0.15.27"
-  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react/-/wallet-adapter-react-0.15.27.tgz#f96ce5b7a1710a5e0b55b93b2b2a9f0b86b57fb0"
-  integrity sha512-OK6cDfQEFdo2a0sqX4VdbD5IJgJinhsD/Z1GqxCiJw/nrRv/awsjVywca9X7t0aKUur45DZ2UYSqW3uhWSQj4g==
+"@solana/wallet-adapter-react@^0.15.27", "@solana/wallet-adapter-react@^0.15.28":
+  version "0.15.28"
+  resolved "https://registry.yarnpkg.com/@solana/wallet-adapter-react/-/wallet-adapter-react-0.15.28.tgz#0818cdbe295db901fa17cb11133c42b4124fa298"
+  integrity sha512-1QG8Mk1LYt4e+JwmpdBifiJzYJG80T4LageOU/7X+trpjbhxMbn+6ceWjkupa0MvHnUxpZBpHYwvHUbWbZlQ9w==
   dependencies:
     "@solana-mobile/wallet-adapter-mobile" "^0.9.9"
     "@solana/wallet-adapter-base" "^0.9.20"
