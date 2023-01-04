@@ -10,7 +10,7 @@ import { initializeKeypair } from "./initializeKeypair";
 import * as fs from "fs";
 
 const tokenName = "Bike-Chain NFT";
-const description = "Collection NFT of Bike-NFTs";
+const description = "Collection NFT of Bike NFTs";
 const symbol = "BKC";
 const sellerFeeBasisPoints = 0;
 const imageFile = "collection.jpeg";
@@ -57,10 +57,7 @@ async function main() {
         "tokens/collectionNFT/cache.json",
         JSON.stringify({
             mintAddress: nft.address.toBase58(),
-            mintAccount: nft.mint,
-            tokenMetadata: nft.metadataAddress.toBase58(),
-            imageUri: imageUri,
-            metadataUri: uri,
+            nft: nft,
         })
     );
 }

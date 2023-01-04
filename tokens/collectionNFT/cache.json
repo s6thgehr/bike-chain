@@ -1,23 +1,61 @@
 {
     "mintAddress": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
-    "mintAccount": {
-        "model": "mint",
+    "nft": {
+        "model": "nft",
+        "updateAuthorityAddress": "D5imPvkMw6nvPPAJccAspxbtRZKtaDcGwu7hoNWHFk39",
+        "json": {
+            "name": "Bike-Chain NFT",
+            "description": "Collection NFT of Bike-NFTs",
+            "image": "https://arweave.net/ntpHqG1HKYvJr3-KHu348lKPohY9b-LcajMj-goNtNI"
+        },
+        "jsonLoaded": true,
+        "name": "Bike-Chain NFT",
+        "symbol": "BKC",
+        "uri": "https://arweave.net/ySS78cjfcaTRyzw2pOKaasR9CELJ0S3z5If5eJaQyfs",
+        "isMutable": true,
+        "primarySaleHappened": false,
+        "sellerFeeBasisPoints": 0,
+        "editionNonce": 253,
+        "creators": [
+            {
+                "address": "D5imPvkMw6nvPPAJccAspxbtRZKtaDcGwu7hoNWHFk39",
+                "verified": true,
+                "share": 100
+            }
+        ],
+        "tokenStandard": 0,
+        "collection": null,
+        "collectionDetails": { "version": "V1", "size": "00" },
+        "uses": null,
         "address": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
-        "mintAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
-        "freezeAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
-        "decimals": 0,
-        "supply": {
-            "basisPoints": "01",
+        "metadataAddress": "GPnWmX87UX24U5xe2quf5hAMKtMvpvfAfLG42jdpNkeG",
+        "mint": {
+            "model": "mint",
+            "address": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
+            "mintAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
+            "freezeAuthorityAddress": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
+            "decimals": 0,
+            "supply": {
+                "basisPoints": "01",
+                "currency": {
+                    "symbol": "BKC",
+                    "decimals": 0,
+                    "namespace": "spl-token"
+                }
+            },
+            "isWrappedSol": false,
             "currency": {
                 "symbol": "BKC",
                 "decimals": 0,
                 "namespace": "spl-token"
             }
         },
-        "isWrappedSol": false,
-        "currency": { "symbol": "BKC", "decimals": 0, "namespace": "spl-token" }
-    },
-    "tokenMetadata": "GPnWmX87UX24U5xe2quf5hAMKtMvpvfAfLG42jdpNkeG",
-    "imageUri": "https://arweave.net/ntpHqG1HKYvJr3-KHu348lKPohY9b-LcajMj-goNtNI",
-    "metadataUri": "https://arweave.net/ySS78cjfcaTRyzw2pOKaasR9CELJ0S3z5If5eJaQyfs"
+        "edition": {
+            "model": "nftEdition",
+            "isOriginal": true,
+            "address": "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf",
+            "supply": "00",
+            "maxSupply": "00"
+        }
+    }
 }

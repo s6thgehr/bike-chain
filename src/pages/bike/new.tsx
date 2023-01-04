@@ -7,21 +7,30 @@ import {
     walletAdapterIdentity,
 } from "@metaplex-foundation/js";
 import { PublicKey } from "@solana/web3.js";
+import { useMemo } from "react";
+import useBikeStore from "stores/useBikeStore";
+import { verifySizedCollectionItem } from "utils/verifySizedCollectionItem";
 
 function NewBike() {
     const router = useRouter();
     const wallet = useWallet();
     const { connection } = useConnection();
+    const addBike = useBikeStore((state) => state.addBike);
 
-    const metaplex = Metaplex.make(connection)
-        .use(walletAdapterIdentity(wallet))
-        .use(
-            bundlrStorage({
-                address: "https://devnet.bundlr.network",
-                providerUrl: "https://api.devnet.solana.com",
-                timeout: 60000,
-            })
-        );
+    // TODO: Use metaplex provider instead and wrap it around app
+    const metaplex = useMemo(
+        () =>
+            Metaplex.make(connection)
+                .use(walletAdapterIdentity(wallet))
+                .use(
+                    bundlrStorage({
+                        address: "https://devnet.bundlr.network",
+                        providerUrl: "https://api.devnet.solana.com",
+                        timeout: 60000,
+                    })
+                ),
+        [connection, wallet]
+    );
 
     async function handleSubmit(formData) {
         const { uri } = await metaplex.nfts().uploadMetadata({
@@ -44,6 +53,9 @@ function NewBike() {
             ),
         });
 
+        addBike({ ...formData, id: nft.address.toBase58() });
+
+        await verifySizedCollectionItem(connection, nft.metadataAddress);
         console.log(nft);
 
         router.push("/your-bikes");
