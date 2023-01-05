@@ -1,4 +1,3 @@
-// Next, React
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { MetaDataInterface } from "../../../types/MetaDataInterface";
