@@ -5,13 +5,13 @@
         "updateAuthorityAddress": "D5imPvkMw6nvPPAJccAspxbtRZKtaDcGwu7hoNWHFk39",
         "json": {
             "name": "Bike-Chain NFT",
-            "description": "Collection NFT of Bike-NFTs",
-            "image": "https://arweave.net/ntpHqG1HKYvJr3-KHu348lKPohY9b-LcajMj-goNtNI"
+            "description": "Collection NFT of Bike NFTs",
+            "image": "https://arweave.net/rpEK4r115KrFX8v5WDBxrWwalYyZ3wgBO76liTnKo8s"
         },
         "jsonLoaded": true,
         "name": "Bike-Chain NFT",
         "symbol": "BKC",
-        "uri": "https://arweave.net/ySS78cjfcaTRyzw2pOKaasR9CELJ0S3z5If5eJaQyfs",
+        "uri": "https://arweave.net/CX-VhjLkFTjq8Oo2FPClRa6c3i0G8olYLCTEh20sOws",
         "isMutable": true,
         "primarySaleHappened": false,
         "sellerFeeBasisPoints": 0,
@@ -25,7 +25,7 @@
         ],
         "tokenStandard": 0,
         "collection": null,
-        "collectionDetails": { "version": "V1", "size": "00" },
+        "collectionDetails": { "version": "V1", "size": "08" },
         "uses": null,
         "address": "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP",
         "metadataAddress": "GPnWmX87UX24U5xe2quf5hAMKtMvpvfAfLG42jdpNkeG",
