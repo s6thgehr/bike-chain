@@ -1,6 +1,9 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import fs from "fs";
-import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
+import {
+    Metadata,
+    PROGRAM_ADDRESS as metaplexProgramId,
+} from "@metaplex-foundation/mpl-token-metadata";
 
 /*
  * yarn ts-node index.ts <collection_id> <rpc_node>
@@ -15,7 +18,6 @@ async function main() {
         "confirmed"
     );
     let collection_id = new PublicKey(args[0]);
-    let metaplexProgramId = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s";
 
     console.log("Getting signatures...");
     let allSignatures = [];

@@ -1,10 +1,4 @@
-import {
-    Metaplex,
-    keypairIdentity,
-    bundlrStorage,
-    NftWithToken,
-    toMetaplexFile,
-} from "@metaplex-foundation/js";
+import { Metaplex, keypairIdentity } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { initializeKeypair } from "./initializeKeypair";
 import * as fs from "fs";
