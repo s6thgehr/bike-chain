@@ -80,7 +80,7 @@ async function main() {
     );
     const metadataAccounts = await Promise.all(promises2);
     for (const account of metadataAccounts) {
-        // Burned token accounts are still in metadataAccounts, these are null
+        // Burned token addresses are still in metadataAccounts, these are null
         if (account) {
             let metadata = await Metadata.deserialize(account!.data);
             mintAddresses.add(metadata[0].mint.toBase58());
