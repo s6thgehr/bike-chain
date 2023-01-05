@@ -2,6 +2,10 @@ import { Connection, PublicKey } from "@solana/web3.js";
 import fs from "fs";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 
+/*
+ * yarn ts-node index.ts <collection_id> <rpc_node>
+ */
+
 async function main() {
     // Get command line arguments
     const args = process.argv.slice(2, 4);
