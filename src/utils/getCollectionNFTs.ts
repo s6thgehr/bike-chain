@@ -3,7 +3,7 @@ import {
   Metadata,
   PROGRAM_ADDRESS as metaplexProgramId,
 } from "@metaplex-foundation/mpl-token-metadata";
-import collectionDetails from "../../tokens/collectionNFT/cache.json";
+import collectionDetails from "../../blockend/tokens/collectionNFT/cache.json";
 import { Metaplex } from "@metaplex-foundation/js";
 
 export default async function getCollectionNFTs(metaplex: Metaplex) {
