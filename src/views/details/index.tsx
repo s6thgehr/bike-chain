@@ -1,6 +1,17 @@
 import axios from "axios";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { MetaDataInterface } from "../../../types/MetaDataInterface";
+import { useRouter } from "next/router";
+import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import {
+  bundlrStorage,
+  CreateBidInput,
+  DirectBuyInput,
+  Metaplex,
+  walletAdapterIdentity,
+} from "@metaplex-foundation/js";
+import { PublicKey, Keypair } from "@solana/web3.js";
+import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
 
 export const DetailsView: FC<{ bike }> = ({ bike }) => {
   const [metaData, setMetaData] = useState<MetaDataInterface>();
@@ -10,6 +21,55 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
     };
     fetchMetaData().catch((e) => console.log(e));
   }, [bike]);
+
+  const router = useRouter();
+  const wallet = useWallet();
+  const { connection } = useConnection();
+
+  const metaplex = useMemo(
+    () =>
+      Metaplex.make(connection)
+        .use(walletAdapterIdentity(wallet))
+        .use(
+          bundlrStorage({
+            address: "https://devnet.bundlr.network",
+            providerUrl: "https://api.devnet.solana.com",
+            timeout: 60000,
+          })
+        ),
+    [connection, wallet]
+  );
+
+  async function buy() {
+    const auctionHouse = await metaplex
+      .auctionHouse()
+      .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+
+    // //TODO: Write function to get server keypair
+    // const secret = JSON.parse(
+    //   process.env.NEXT_PUBLIC_PRIVATE_KEY ?? ""
+    // ) as number[];
+    // const secretKey = Uint8Array.from(secret);
+    // const keypair = Keypair.fromSecretKey(secretKey);
+    const listings = await metaplex
+      .auctionHouse()
+      .findListings({ auctionHouse, mint: bike.address });
+
+    const bidInput: CreateBidInput = {
+      auctionHouse,
+      buyer: wallet,
+      mintAccount: bike.address,
+    };
+
+    // const bidInput: DirectBuyInput = {
+    //   auctionHouse,
+    //   listing: listings,
+    //   buyer: wallet,
+    // };
+
+    // metaplex.auctionHouse().buy();
+    await metaplex.auctionHouse().bid(bidInput);
+  }
 
   return metaData ? (
     <div className="flex">
@@ -39,7 +99,11 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
           </div>
         </div>
 
-        <label htmlFor="my-modal" className="btn btn-secondary text-black">
+        <label
+          onClick={buy}
+          htmlFor="my-modal"
+          className="btn btn-secondary text-black"
+        >
           Buy now
         </label>
 
