@@ -151,7 +151,7 @@ function BikeForm({ formData, handleSubmit }) {
         }}
         className="mt-4 py-2 px-4 bg-[#D58EB0] hover:bg-[#8E2F5C] hover:text-white rounded"
       >
-        Submit
+        List bike
       </button>
     </form>
   );

@@ -2,7 +2,6 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { ParsedAccountData, PublicKey } from "@solana/web3.js";
 import AddBikeCard from "components/AddBikeCard";
 import BikeCard from "components/BikeCard";
-import { on } from "process";
 import { FC, useEffect, useState } from "react";
 import useBikeStore from "stores/useBikeStore";
 
@@ -17,6 +16,7 @@ export const YourBikesView: FC = ({}) => {
     const fetchAccounts = async () => {
       const results = await Promise.all(
         bikes.map(async (bike) => {
+          console.log(bike);
           const largestAccounts = await connection.getTokenLargestAccounts(
             new PublicKey(bike.mintAddress)
           );
@@ -30,7 +30,7 @@ export const YourBikesView: FC = ({}) => {
         })
       );
       const filteredBikes = bikes.filter((_, index) => results[index]);
-      console.log("Filtered bikes: ", filteredBikes);
+
       setOwnBikes(filteredBikes);
     };
     fetchAccounts();

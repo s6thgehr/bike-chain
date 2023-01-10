@@ -1,8 +1,4 @@
-import {
-  Metaplex,
-  keypairIdentity,
-  CreateAuctionHouseInput,
-} from "@metaplex-foundation/js";
+import { Metaplex, keypairIdentity } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { initializeKeypair } from "../utils/initializeKeypair";
 import * as fs from "fs";

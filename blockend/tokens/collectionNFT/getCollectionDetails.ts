@@ -15,7 +15,7 @@ async function main() {
   const nft = await metaplex.nfts().findByMint({ mintAddress });
 
   fs.writeFileSync(
-    "tokens/collectionNFT/cache.json",
+    "blockend/tokens/collectionNFT/cache.json",
     JSON.stringify({
       mintAddress: nft.address.toBase58(),
       nft: nft,
