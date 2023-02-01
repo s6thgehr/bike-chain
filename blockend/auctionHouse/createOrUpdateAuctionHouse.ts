@@ -25,7 +25,8 @@ async function main() {
     // auctioneerScopes: AuthorityScope[],
   };
 
-  await createAuctionHouse(metaplex, auctionHouseSettings);
+  const output = await createAuctionHouse(metaplex, auctionHouseSettings);
+  console.log("AuctionHouseOutput: ", output);
 }
 
 async function createAuctionHouse(

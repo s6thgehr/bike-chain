@@ -47,11 +47,11 @@ async function main() {
   });
   console.log("metadata uri:", uri);
 
-  const mintAddress = new PublicKey(
-    "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP"
-  );
-  // const nft = await createNft(metaplex, uri);
-  const nft = (await updateNft(metaplex, uri, mintAddress)) as NftWithToken;
+  // const mintAddress = new PublicKey(
+  //   "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP"
+  // );
+  const nft = await createNft(metaplex, uri);
+  // const nft = (await updateNft(metaplex, uri, mintAddress)) as NftWithToken;
 
   fs.writeFileSync(
     "blockend/tokens/collectionNFT/cache.json",

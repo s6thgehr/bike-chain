@@ -1,9 +1,11 @@
+import { keypairIdentity, Metaplex } from "@metaplex-foundation/js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { ParsedAccountData, PublicKey } from "@solana/web3.js";
+import { Keypair, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import AddBikeCard from "components/AddBikeCard";
 import BikeCard from "components/BikeCard";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import useBikeStore from "stores/useBikeStore";
+import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
 
 export const YourBikesView: FC = ({}) => {
   const { connection } = useConnection();
@@ -11,6 +13,9 @@ export const YourBikesView: FC = ({}) => {
   const bikes = useBikeStore((state) => state.bikes);
 
   const [ownBikes, setOwnBikes] = useState([]);
+  const [ownListings, setOwnListings] = useState([]);
+
+  const metaplex = useMemo(() => Metaplex.make(connection), [connection]);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -32,28 +37,46 @@ export const YourBikesView: FC = ({}) => {
       const filteredBikes = bikes.filter((_, index) => results[index]);
 
       setOwnBikes(filteredBikes);
+
+      const auctionHouse = await metaplex
+        .auctionHouse()
+        .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+      const listingsLazy = await metaplex
+        .auctionHouse()
+        .findListings({ auctionHouse, seller: wallet.publicKey });
+      setOwnListings(
+        await Promise.all(
+          listingsLazy.map(async (l) => {
+            const tradeStateAddress = l.tradeStateAddress;
+            const listing = await metaplex
+              .auctionHouse()
+              .findListingByTradeState({ tradeStateAddress, auctionHouse });
+            return listing;
+          })
+        )
+      );
     };
     fetchAccounts();
   }, [wallet]);
 
-  return (
-    ownBikes && (
-      <div className="md:hero mx-auto p-4">
-        <div className="md:hero-content flex flex-col w-screen">
-          <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-            Your Bikes
-          </h1>
-          {/* CONTENT GOES HERE */}
-          <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
-            <AddBikeCard />
+  console.log("Own listings: ", ownListings);
 
-            {ownBikes.length > 0 &&
-              ownBikes.map((bike) => {
-                return <BikeCard key={bike.mintAddress} data={bike} />;
-              })}
-          </div>
+  return (
+    <div className="md:hero mx-auto p-4">
+      <div className="md:hero-content flex flex-col w-screen">
+        <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+          Your Bikes
+        </h1>
+        {/* CONTENT GOES HERE */}
+        <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
+          <AddBikeCard />
+
+          {ownListings.length > 0 &&
+            ownListings.map((listing) => {
+              return <BikeCard key={listing.asset.address} listing={listing} />;
+            })}
         </div>
       </div>
-    )
+    </div>
   );
 };

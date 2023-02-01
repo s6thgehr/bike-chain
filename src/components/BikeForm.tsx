@@ -109,7 +109,7 @@ function BikeForm({ formData, handleSubmit }) {
         </div>
       </div>
       <div className="flex flex-wrap -mx-3 my-6">
-        <div className="w-full md:w-1/2 px-3">
+        <div className="w-full px-3">
           <label
             htmlFor="location"
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -123,6 +123,25 @@ function BikeForm({ formData, handleSubmit }) {
             id="location"
             value={formular?.city}
             name="city"
+            onChange={inputHandler}
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap -mx-3 my-6">
+        <div className="w-full md:w-1/2 px-3">
+          <label
+            htmlFor="combination"
+            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          >
+            Combination
+          </label>
+          <input
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            type="password"
+            placeholder="Combination of bicycle lock"
+            id="combination"
+            value={formular?.combination}
+            name="combination"
             onChange={inputHandler}
           />
         </div>
@@ -144,6 +163,7 @@ function BikeForm({ formData, handleSubmit }) {
           />
         </div>
       </div>
+
       <button
         type="button"
         onClick={() => {

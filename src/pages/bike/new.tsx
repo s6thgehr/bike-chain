@@ -11,6 +11,8 @@ import { useMemo } from "react";
 import useBikeStore from "stores/useBikeStore";
 import { verifySizedCollectionItem } from "utils/verifySizedCollectionItem";
 import { createBikeListing } from "utils/createBikeListing";
+import collectionCache from "../../../blockend/tokens/collectionNFT/cache.json";
+import { dollarToSol } from "utils/dollarToSol";
 
 function NewBike() {
   const router = useRouter();
@@ -42,25 +44,31 @@ function NewBike() {
         { trait_type: "bike_type", value: formData.type },
         { trait_type: "city", value: formData.city },
         { trait_type: "price", value: formData.price },
+        { trait_type: "combination", value: formData.combination },
       ],
     });
 
+    console.log("Creating bicycle NFT...");
     const { nft } = await metaplex.nfts().create({
       uri: uri,
       name: formData.model,
       sellerFeeBasisPoints: 0,
-      collection: new PublicKey("2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP"),
+      collection: new PublicKey(collectionCache.mintAddress),
     });
+    console.log("Bicycle NFT created.");
 
+    console.log("Verify bicycle NFT...");
     await verifySizedCollectionItem(connection, nft.metadataAddress);
+    console.log("Bicycle NFT verified.");
 
+    console.log("Creating listing...");
     const createListingOutput = await createBikeListing(
       metaplex,
       wallet.publicKey,
       nft.address,
-      0.02
+      dollarToSol(Number(formData.price))
     );
-
+    console.log("Listing created.");
     // addBike and setBikes use different data formats
     // addBike(nft);
 
@@ -79,6 +87,7 @@ function NewBike() {
           imageUrl: "",
           city: "",
           price: "",
+          combination: "",
         }}
         handleSubmit={handleSubmit}
       />

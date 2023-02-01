@@ -10,7 +10,7 @@ async function main() {
   const metaplex = Metaplex.make(connection).use(keypairIdentity(keyPair));
 
   const auctionHouse = await metaplex.auctionHouse().findByAddress({
-    address: new PublicKey("DkvoYxVv5h5u6mPhDoHCZ27SNhqWV7spxUgMrGgzsAh2"),
+    address: new PublicKey("A64ssYbqry4D99a85oRsGC2FHAmY7tfcEf3D94zcHh9a"),
   });
 
   fs.writeFileSync(

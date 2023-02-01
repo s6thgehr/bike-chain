@@ -7,7 +7,10 @@ import {
   bundlrStorage,
   CreateBidInput,
   DirectBuyInput,
+  keypairIdentity,
+  Listing,
   Metaplex,
+  toListing,
   walletAdapterIdentity,
 } from "@metaplex-foundation/js";
 import { PublicKey, Keypair } from "@solana/web3.js";
@@ -26,49 +29,53 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
+  //TODO: Write function to get server keypair
+  const secret = JSON.parse(
+    process.env.NEXT_PUBLIC_PRIVATE_KEY ?? ""
+  ) as number[];
+  const secretKey = Uint8Array.from(secret);
+  const keypair = Keypair.fromSecretKey(secretKey);
+
   const metaplex = useMemo(
-    () =>
-      Metaplex.make(connection)
-        .use(walletAdapterIdentity(wallet))
-        .use(
-          bundlrStorage({
-            address: "https://devnet.bundlr.network",
-            providerUrl: "https://api.devnet.solana.com",
-            timeout: 60000,
-          })
-        ),
+    () => Metaplex.make(connection).use(keypairIdentity(keypair)),
     [connection, wallet]
   );
+
+  // const metaplex = useMemo(
+  //   () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
+  //   [connection, wallet]
+  // );
 
   async function buy() {
     const auctionHouse = await metaplex
       .auctionHouse()
       .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
 
-    // //TODO: Write function to get server keypair
-    // const secret = JSON.parse(
-    //   process.env.NEXT_PUBLIC_PRIVATE_KEY ?? ""
-    // ) as number[];
-    // const secretKey = Uint8Array.from(secret);
-    // const keypair = Keypair.fromSecretKey(secretKey);
+    // const bidInput: CreateBidInput = {
+    //   auctionHouse,
+    //   buyer: wallet,
+    //   mintAccount: bike.address,
+    // };
+
+    // Find listings by seller and mint.
     const listings = await metaplex
       .auctionHouse()
       .findListings({ auctionHouse, mint: bike.address });
 
-    const bidInput: CreateBidInput = {
+    // console.log(listings);
+    const receiptAddress = listings[0].receiptAddress;
+    const listing = await metaplex
+      .auctionHouse()
+      .findListingByReceipt({ auctionHouse, receiptAddress });
+    const buyInput: DirectBuyInput = {
       auctionHouse,
-      buyer: wallet,
-      mintAccount: bike.address,
+      listing: listing,
+      buyer: keypair,
+      price: listing.price,
     };
 
-    // const bidInput: DirectBuyInput = {
-    //   auctionHouse,
-    //   listing: listings,
-    //   buyer: wallet,
-    // };
-
-    // metaplex.auctionHouse().buy();
-    await metaplex.auctionHouse().bid(bidInput);
+    await metaplex.auctionHouse().buy(buyInput);
+    // await metaplex.auctionHouse().bid(bidInput);
   }
 
   return metaData ? (

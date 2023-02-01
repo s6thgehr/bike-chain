@@ -7,6 +7,7 @@ import {
   Signer,
   Transaction,
 } from "@solana/web3.js";
+import collectionCache from "../../blockend/tokens/collectionNFT/cache.json";
 
 export async function verifySizedCollectionItem(
   connection: Connection,
@@ -22,15 +23,13 @@ export async function verifySizedCollectionItem(
   const instruction = createVerifySizedCollectionItemInstruction({
     metadata: metadata,
     collectionAuthority: new PublicKey(
-      "D5imPvkMw6nvPPAJccAspxbtRZKtaDcGwu7hoNWHFk39"
+      collectionCache.nft.updateAuthorityAddress
     ),
     payer: serverKeypair.publicKey,
-    collectionMint: new PublicKey(
-      "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP"
-    ),
-    collection: new PublicKey("GPnWmX87UX24U5xe2quf5hAMKtMvpvfAfLG42jdpNkeG"),
+    collectionMint: new PublicKey(collectionCache.mintAddress),
+    collection: new PublicKey(collectionCache.nft.metadataAddress),
     collectionMasterEditionAccount: new PublicKey(
-      "3yRrcyTRzjpPNir9txQQum9iKeM1AXQYdXqxe2T17vmf"
+      collectionCache.nft.edition.address
     ),
   });
 

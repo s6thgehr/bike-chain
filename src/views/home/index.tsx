@@ -1,5 +1,5 @@
 // Next, React
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 // Wallet
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -12,12 +12,15 @@ import { Metaplex } from "@metaplex-foundation/js";
 import getCollectionNFTs from "utils/getCollectionNFTs";
 import useBikeStore from "stores/useBikeStore";
 import axios from "axios";
+import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
+import { PublicKey } from "@solana/web3.js";
 
 // const bikesData = bikes;
 
 export const HomeView: FC = ({}) => {
   const wallet = useWallet();
   const { connection } = useConnection();
+  const [listings, setListings] = useState([]);
 
   const setBikes = useBikeStore((state) => state.setBikes);
   const bikes = useBikeStore((state) => state.bikes);
@@ -27,6 +30,25 @@ export const HomeView: FC = ({}) => {
   useEffect(() => {
     const fetchData = async () => {
       const bikeData = await getCollectionNFTs(metaplex);
+      const auctionHouse = await metaplex
+        .auctionHouse()
+        .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+      const listings = await metaplex
+        .auctionHouse()
+        .findListings({ auctionHouse });
+
+      setListings(
+        await Promise.all(
+          listings.map(async (l) => {
+            const tradeStateAddress = l.tradeStateAddress;
+            const listing = await metaplex
+              .auctionHouse()
+              .findListingByTradeState({ tradeStateAddress, auctionHouse });
+            console.log("Listings: ", listing);
+            return listing;
+          })
+        )
+      );
       setBikes(bikeData);
     };
     fetchData().catch((e) => console.log(e));
@@ -50,9 +72,12 @@ export const HomeView: FC = ({}) => {
             <h2 className="mb-4 text-2xl font-bold tracking-tight text-white">
               Bikes for Sale
             </h2>
+
             <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-              {bikes.map((data) => {
-                return <BikeCard key={data.address} data={data} />;
+              {listings.map((listing) => {
+                return (
+                  <BikeCard key={listing.asset.address} listing={listing} />
+                );
               })}
             </div>
           </div>

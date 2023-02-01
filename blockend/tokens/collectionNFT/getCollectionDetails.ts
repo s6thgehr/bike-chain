@@ -2,6 +2,7 @@ import { Metaplex, keypairIdentity } from "@metaplex-foundation/js";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { initializeKeypair } from "../../utils/initializeKeypair";
 import * as fs from "fs";
+import collectionCache from "./cache.json";
 
 async function main() {
   const connection = new Connection(clusterApiUrl("devnet"));
@@ -9,9 +10,7 @@ async function main() {
 
   const metaplex = Metaplex.make(connection).use(keypairIdentity(keypair));
 
-  const mintAddress = new PublicKey(
-    "2ULpn2o8yVFbvSumUWHXiZPifk76W2jGU59Vy5v9z2zP"
-  );
+  const mintAddress = new PublicKey(collectionCache.mintAddress);
   const nft = await metaplex.nfts().findByMint({ mintAddress });
 
   fs.writeFileSync(
