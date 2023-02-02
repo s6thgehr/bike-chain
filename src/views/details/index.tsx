@@ -1,4 +1,5 @@
 import axios from "axios";
+import { withRouter } from "next/router";
 import { FC, useEffect, useState, useMemo } from "react";
 import { MetaDataInterface } from "../../../types/MetaDataInterface";
 import { useRouter } from "next/router";
@@ -15,17 +16,9 @@ import {
 } from "@metaplex-foundation/js";
 import { PublicKey, Keypair } from "@solana/web3.js";
 import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
+import exp from "constants";
 
-export const DetailsView: FC<{ bike }> = ({ bike }) => {
-  const [metaData, setMetaData] = useState<MetaDataInterface>();
-  useEffect(() => {
-    const fetchMetaData = async () => {
-      await axios.get(bike.uri).then((response) => setMetaData(response.data));
-    };
-    fetchMetaData().catch((e) => console.log(e));
-  }, [bike]);
-
-  const router = useRouter();
+export const DetailsView: FC<{ listing }> = ({ listing }) => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
@@ -57,16 +50,17 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
     //   mintAccount: bike.address,
     // };
 
-    // Find listings by seller and mint.
-    const listings = await metaplex
-      .auctionHouse()
-      .findListings({ auctionHouse, mint: bike.address });
+    // // Find listings by seller and mint.
+    // const listings = await metaplex
+    //   .auctionHouse()
+    //   .findListings({ auctionHouse, mint: bike.address });
 
-    // console.log(listings);
-    const receiptAddress = listings[0].receiptAddress;
-    const listing = await metaplex
-      .auctionHouse()
-      .findListingByReceipt({ auctionHouse, receiptAddress });
+    // // console.log(listings);
+    // const receiptAddress = listings[0].receiptAddress;
+    // const listing = await metaplex
+    //   .auctionHouse()
+    //   .findListingByReceipt({ auctionHouse, receiptAddress });
+
     const buyInput: DirectBuyInput = {
       auctionHouse,
       listing: listing,
@@ -78,25 +72,25 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
     // await metaplex.auctionHouse().bid(bidInput);
   }
 
-  return metaData ? (
+  return (
     <div className="flex">
       <div className="w-1/2">
-        <img src={metaData.image} alt="bike" className="w-full" />
+        <img src={listing.asset.json.image} alt="bike" className="w-full" />
       </div>
       <div className="w-1/2 mx-8 grid grid-rows-5 grid-flow-col gap-4">
         <h2 className="pt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          {bike.name}
+          {listing.asset.json.name}
         </h2>
-        <p className="">{metaData.description}</p>
+        <p className="">{listing.asset.json.description}</p>
         <div className="flex flex-row">
           <div className="basis-1/2 flex flex-col justify-between">
             <div>
               <div className="font-bold inline">City:</div>{" "}
-              {metaData.attributes[1].value}
+              {listing.asset.json.attributes[1].value}
             </div>
             <div className="mt-8">
               <div className="font-bold inline">Price:</div> $
-              {metaData.attributes[2].value}
+              {listing.asset.json.attributes[2].value}
             </div>
           </div>
           <div className="mx-4">
@@ -132,7 +126,5 @@ export const DetailsView: FC<{ bike }> = ({ bike }) => {
         </div>
       </div>
     </div>
-  ) : (
-    <div>Loading</div>
   );
 };

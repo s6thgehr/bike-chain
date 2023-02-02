@@ -5,31 +5,20 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 import pkg from "../../../package.json";
-// import { bikes } from "data/bikes";
 import BikeCard from "components/BikeCard";
-import Link from "next/link";
 import { Metaplex } from "@metaplex-foundation/js";
-import getCollectionNFTs from "utils/getCollectionNFTs";
-import useBikeStore from "stores/useBikeStore";
-import axios from "axios";
 import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
 import { PublicKey } from "@solana/web3.js";
-
-// const bikesData = bikes;
 
 export const HomeView: FC = ({}) => {
   const wallet = useWallet();
   const { connection } = useConnection();
   const [listings, setListings] = useState([]);
 
-  const setBikes = useBikeStore((state) => state.setBikes);
-  const bikes = useBikeStore((state) => state.bikes);
-
   const metaplex = useMemo(() => Metaplex.make(connection), [connection]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const bikeData = await getCollectionNFTs(metaplex);
       const auctionHouse = await metaplex
         .auctionHouse()
         .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
@@ -38,18 +27,21 @@ export const HomeView: FC = ({}) => {
         .findListings({ auctionHouse });
 
       setListings(
-        await Promise.all(
-          listings.map(async (l) => {
-            const tradeStateAddress = l.tradeStateAddress;
-            const listing = await metaplex
-              .auctionHouse()
-              .findListingByTradeState({ tradeStateAddress, auctionHouse });
-            console.log("Listings: ", listing);
-            return listing;
-          })
-        )
+        (
+          await Promise.all(
+            listings.map(async (l) => {
+              const tradeStateAddress = l.tradeStateAddress;
+              const listing = await metaplex
+                .auctionHouse()
+                .findListingByTradeState({ tradeStateAddress, auctionHouse });
+              // console.log("Listings: ", listing);
+              return listing;
+            })
+          )
+        ).filter((l) => {
+          return l.purchaseReceiptAddress === null && l.canceledAt === null;
+        })
       );
-      setBikes(bikeData);
     };
     fetchData().catch((e) => console.log(e));
   }, []);

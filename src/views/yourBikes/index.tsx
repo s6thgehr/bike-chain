@@ -10,33 +10,30 @@ import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
 export const YourBikesView: FC = ({}) => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const bikes = useBikeStore((state) => state.bikes);
-
-  const [ownBikes, setOwnBikes] = useState([]);
   const [ownListings, setOwnListings] = useState([]);
 
   const metaplex = useMemo(() => Metaplex.make(connection), [connection]);
 
   useEffect(() => {
     const fetchAccounts = async () => {
-      const results = await Promise.all(
-        bikes.map(async (bike) => {
-          console.log(bike);
-          const largestAccounts = await connection.getTokenLargestAccounts(
-            new PublicKey(bike.mintAddress)
-          );
-          const largestAccountInfo = await connection.getParsedAccountInfo(
-            largestAccounts.value[0].address
-          );
-          return (
-            (largestAccountInfo.value.data as ParsedAccountData).parsed.info
-              .owner === wallet.publicKey.toBase58()
-          );
-        })
-      );
-      const filteredBikes = bikes.filter((_, index) => results[index]);
+      // const results = await Promise.all(
+      //   bikes.map(async (bike) => {
+      //     console.log(bike);
+      //     const largestAccounts = await connection.getTokenLargestAccounts(
+      //       new PublicKey(bike.mintAddress)
+      //     );
+      //     const largestAccountInfo = await connection.getParsedAccountInfo(
+      //       largestAccounts.value[0].address
+      //     );
+      //     return (
+      //       (largestAccountInfo.value.data as ParsedAccountData).parsed.info
+      //         .owner === wallet.publicKey.toBase58()
+      //     );
+      //   })
+      // );
+      // const filteredBikes = bikes.filter((_, index) => results[index]);
 
-      setOwnBikes(filteredBikes);
+      // setOwnBikes(filteredBikes);
 
       const auctionHouse = await metaplex
         .auctionHouse()

@@ -15,7 +15,15 @@ const BikeCard = ({ listing }) => {
       </figure>
       <div className="card-body first-letter px-2 pt-4">
         <h2 className="card-title">
-          <Link href={`/details/${listing.asset.address}`}>
+          <Link
+            href={{
+              pathname: `/details/${listing.asset.address}`,
+              query: {
+                object: JSON.stringify(listing),
+              },
+            }}
+          >
+            {/* <Link href={`/details/${listing.tradeStateAddress}`}> */}
             <span aria-hidden="true" className="absolute inset-0" />
             <p> {listing.asset.json.name}</p>
           </Link>
