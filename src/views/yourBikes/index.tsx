@@ -11,6 +11,7 @@ export const YourBikesView: FC = ({}) => {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [ownListings, setOwnListings] = useState([]);
+  const [purchases, setPurchases] = useState([]);
 
   const metaplex = useMemo(() => Metaplex.make(connection), [connection]);
 
@@ -41,13 +42,34 @@ export const YourBikesView: FC = ({}) => {
       const listingsLazy = await metaplex
         .auctionHouse()
         .findListings({ auctionHouse, seller: wallet.publicKey });
+
       setOwnListings(
+        (
+          await Promise.all(
+            listingsLazy.map(async (l) => {
+              const tradeStateAddress = l.tradeStateAddress;
+              const listing = await metaplex
+                .auctionHouse()
+                .findListingByTradeState({ tradeStateAddress, auctionHouse });
+              return listing;
+            })
+          )
+        ).filter((l) => {
+          return l.purchaseReceiptAddress === null && l.canceledAt === null;
+        })
+      );
+
+      const purchases = await metaplex
+        .auctionHouse()
+        .findPurchases({ auctionHouse, buyer: wallet.publicKey });
+
+      setPurchases(
         await Promise.all(
-          listingsLazy.map(async (l) => {
-            const tradeStateAddress = l.tradeStateAddress;
+          purchases.map(async (l) => {
+            const receiptAddress = l.receiptAddress;
             const listing = await metaplex
               .auctionHouse()
-              .findListingByTradeState({ tradeStateAddress, auctionHouse });
+              .findPurchaseByReceipt({ receiptAddress, auctionHouse });
             return listing;
           })
         )
@@ -57,12 +79,13 @@ export const YourBikesView: FC = ({}) => {
   }, [wallet]);
 
   console.log("Own listings: ", ownListings);
+  console.log("Own purchases: ", purchases);
 
   return (
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col w-screen">
         <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
-          Your Bikes
+          Your Listings
         </h1>
         {/* CONTENT GOES HERE */}
         <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
@@ -70,6 +93,16 @@ export const YourBikesView: FC = ({}) => {
 
           {ownListings.length > 0 &&
             ownListings.map((listing) => {
+              return <BikeCard key={listing.asset.address} listing={listing} />;
+            })}
+        </div>
+        <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+          Your Purchases
+        </h1>
+        {/* CONTENT GOES HERE */}
+        <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
+          {purchases.length > 0 &&
+            purchases.map((listing) => {
               return <BikeCard key={listing.asset.address} listing={listing} />;
             })}
         </div>

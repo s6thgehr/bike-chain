@@ -39,10 +39,13 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
   //   [connection, wallet]
   // );
 
+  console.log("buy: ", listing);
+
   async function buy() {
     const auctionHouse = await metaplex
       .auctionHouse()
       .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+    console.log("AuctionHouse: ", auctionHouse);
 
     // const bidInput: CreateBidInput = {
     //   auctionHouse,
@@ -57,19 +60,22 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
 
     // // console.log(listings);
     // const receiptAddress = listings[0].receiptAddress;
-    // const listing = await metaplex
-    //   .auctionHouse()
-    //   .findListingByReceipt({ auctionHouse, receiptAddress });
+
+    // Somehow I need to fetch the listing again with findByReceipt, otherwise I get errors
+    const l = await metaplex.auctionHouse().findListingByReceipt({
+      auctionHouse,
+      receiptAddress: new PublicKey(listing.receiptAddress),
+    });
+    console.log("After ReceiptAddress: ", l);
 
     const buyInput: DirectBuyInput = {
       auctionHouse,
-      listing: listing,
+      listing: l,
       buyer: keypair,
-      price: listing.price,
+      price: l.price,
     };
 
     await metaplex.auctionHouse().buy(buyInput);
-    // await metaplex.auctionHouse().bid(bidInput);
   }
 
   return (
