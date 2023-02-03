@@ -17,25 +17,6 @@ export const YourBikesView: FC = ({}) => {
 
   useEffect(() => {
     const fetchAccounts = async () => {
-      // const results = await Promise.all(
-      //   bikes.map(async (bike) => {
-      //     console.log(bike);
-      //     const largestAccounts = await connection.getTokenLargestAccounts(
-      //       new PublicKey(bike.mintAddress)
-      //     );
-      //     const largestAccountInfo = await connection.getParsedAccountInfo(
-      //       largestAccounts.value[0].address
-      //     );
-      //     return (
-      //       (largestAccountInfo.value.data as ParsedAccountData).parsed.info
-      //         .owner === wallet.publicKey.toBase58()
-      //     );
-      //   })
-      // );
-      // const filteredBikes = bikes.filter((_, index) => results[index]);
-
-      // setOwnBikes(filteredBikes);
-
       const auctionHouse = await metaplex
         .auctionHouse()
         .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
@@ -84,7 +65,7 @@ export const YourBikesView: FC = ({}) => {
   return (
     <div className="md:hero mx-auto p-4">
       <div className="md:hero-content flex flex-col w-screen">
-        <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+        <h1 className="p-2 text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
           Your Listings
         </h1>
         {/* CONTENT GOES HERE */}
@@ -96,7 +77,7 @@ export const YourBikesView: FC = ({}) => {
               return <BikeCard key={listing.asset.address} listing={listing} />;
             })}
         </div>
-        <h1 className="text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-[#9945FF] to-[#14F195]">
+        <h1 className="p-2 text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
           Your Purchases
         </h1>
         {/* CONTENT GOES HERE */}
