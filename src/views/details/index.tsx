@@ -1,43 +1,21 @@
-import axios from "axios";
-import { withRouter } from "next/router";
-import { FC, useEffect, useState, useMemo } from "react";
-import { MetaDataInterface } from "../../../types/MetaDataInterface";
-import { useRouter } from "next/router";
+import { FC, useMemo } from "react";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
-  bundlrStorage,
-  CreateBidInput,
   DirectBuyInput,
-  keypairIdentity,
-  Listing,
   Metaplex,
-  toListing,
   walletAdapterIdentity,
 } from "@metaplex-foundation/js";
-import { PublicKey, Keypair } from "@solana/web3.js";
+import { PublicKey } from "@solana/web3.js";
 import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
-import exp from "constants";
 
 export const DetailsView: FC<{ listing }> = ({ listing }) => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  //TODO: Write function to get server keypair
-  const secret = JSON.parse(
-    process.env.NEXT_PUBLIC_PRIVATE_KEY ?? ""
-  ) as number[];
-  const secretKey = Uint8Array.from(secret);
-  const keypair = Keypair.fromSecretKey(secretKey);
-
   const metaplex = useMemo(
-    () => Metaplex.make(connection).use(keypairIdentity(keypair)),
+    () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
     [connection, wallet]
   );
-
-  // const metaplex = useMemo(
-  //   () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
-  //   [connection, wallet]
-  // );
 
   console.log("buy: ", listing);
 
@@ -46,20 +24,6 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
       .auctionHouse()
       .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
     console.log("AuctionHouse: ", auctionHouse);
-
-    // const bidInput: CreateBidInput = {
-    //   auctionHouse,
-    //   buyer: wallet,
-    //   mintAccount: bike.address,
-    // };
-
-    // // Find listings by seller and mint.
-    // const listings = await metaplex
-    //   .auctionHouse()
-    //   .findListings({ auctionHouse, mint: bike.address });
-
-    // // console.log(listings);
-    // const receiptAddress = listings[0].receiptAddress;
 
     // Somehow I need to fetch the listing again with findByReceipt, otherwise I get errors
     const l = await metaplex.auctionHouse().findListingByReceipt({
@@ -71,7 +35,7 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
     const buyInput: DirectBuyInput = {
       auctionHouse,
       listing: l,
-      buyer: keypair,
+      buyer: metaplex.identity(),
       price: l.price,
     };
 
