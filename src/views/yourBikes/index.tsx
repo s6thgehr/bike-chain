@@ -3,6 +3,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Keypair, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import AddBikeCard from "components/AddBikeCard";
 import BikeCard from "components/BikeCard";
+import FloatingActionButton from "components/FloatingActionButton";
 import { FC, useEffect, useMemo, useState } from "react";
 import useBikeStore from "stores/useBikeStore";
 import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
@@ -69,25 +70,24 @@ export const YourBikesView: FC = ({}) => {
           Your Listings
         </h1>
         {/* CONTENT GOES HERE */}
-        <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
-          <AddBikeCard />
-
+        <div className="mt-16 mb-24 text-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 md:gap-16 justify-start">
           {ownListings.length > 0 &&
             ownListings.map((listing) => {
               return <BikeCard key={listing.asset.address} listing={listing} />;
             })}
         </div>
-        <h1 className="p-2 text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
+        {/* <h1 className="p-2 text-center text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
           Your Purchases
         </h1>
-        {/* CONTENT GOES HERE */}
+
         <div className="mt-16 text-center flex flex-row flex-wrap gap-24 justify-start w-full">
           {purchases.length > 0 &&
             purchases.map((listing) => {
               return <BikeCard key={listing.asset.address} listing={listing} />;
             })}
-        </div>
+        </div> */}
       </div>
+      <FloatingActionButton />
     </div>
   );
 };
