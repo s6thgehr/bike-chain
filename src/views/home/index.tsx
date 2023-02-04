@@ -49,15 +49,15 @@ export const HomeView: FC = ({}) => {
 
   return (
     <div className="md:hero mx-auto p-4">
-      <div className="md:hero-content flex flex-col">
-        <h1 className="p-2 text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
+      <div className="flex flex-col">
+        <h1 className="py-2 text-center text-5xl px-12 font-bold text-transparent bg-clip-text bg-gradient-to-tr from-secondary to-primary">
           Bicycle Chain{" "}
           <span className="text-sm font-normal align-top text-base-content">
             v{pkg.version}
           </span>
         </h1>
         <h4 className="md:w-full text-center text-base-content my-2 text-lg md:text-2xl space-y-2">
-          <p>💵 Sell your bike withoutbeing on site.</p>
+          <p>💵 Sell your bike without being on site.</p>
           <p>🚲 Or buy a bike directly on the street.</p>
         </h4>
         {wallet.connected ? (
@@ -67,7 +67,7 @@ export const HomeView: FC = ({}) => {
             </h2>
 
             {listings.length > 0 ? (
-              <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+              <div className="mt-6 mr-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                 {listings.map((listing) => {
                   return (
                     <BikeCard key={listing.asset.address} listing={listing} />

@@ -19,16 +19,16 @@ export default async function getCollectionNFTs(metaplex: Metaplex) {
   // This returns the first 1000, so we need to loop through until we run out of signatures to get.
   let signatures = await connection.getSignaturesForAddress(collection_id);
   allSignatures.push(...signatures);
-  do {
-    let options = {
-      before: signatures[signatures.length - 1].signature,
-    };
-    signatures = await connection.getSignaturesForAddress(
-      collection_id,
-      options
-    );
-    allSignatures.push(...signatures);
-  } while (signatures.length > 0);
+  // do {
+  //   let options = {
+  //     before: signatures[signatures.length - 1].signature,
+  //   };
+  //   signatures = await connection.getSignaturesForAddress(
+  //     collection_id,
+  //     options
+  //   );
+  //   allSignatures.push(...signatures);
+  // } while (signatures.length > 0);
 
   console.log(`Found ${allSignatures.length} signatures`);
   let metadataAddresses = [];

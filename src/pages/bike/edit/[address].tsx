@@ -1,4 +1,4 @@
-import BikeForm from "../../components/BikeForm";
+import BikeForm from "../../../components/BikeForm";
 import { useRouter } from "next/router";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import {
@@ -7,19 +7,19 @@ import {
   walletAdapterIdentity,
 } from "@metaplex-foundation/js";
 import { Keypair, PublicKey } from "@solana/web3.js";
-import { useMemo } from "react";
-import useBikeStore from "stores/useBikeStore";
+import { useEffect, useMemo, useState } from "react";
 import { verifySizedCollectionItem } from "utils/verifySizedCollectionItem";
 import { createBikeListing } from "utils/createBikeListing";
-import collectionCache from "../../../blockend/tokens/collectionNFT/cache.json";
+import collectionCache from "../../../../blockend/tokens/collectionNFT/cache.json";
 import { dollarToSol } from "utils/dollarToSol";
-var CryptoJS = require("crypto-js");
+import auctionHouseCache from "../../../../blockend/auctionHouse/cache.json";
 
-function NewBike() {
-  const router = useRouter();
+function EditBike() {
   const wallet = useWallet();
   const { connection } = useConnection();
-  const addBike = useBikeStore((state) => state.addBike);
+  const router = useRouter();
+  const { address } = router.query;
+  const [bike, setBike] = useState<any>();
 
   // TODO: Use metaplex provider instead and wrap it around app
   const metaplex = useMemo(
@@ -43,12 +43,27 @@ function NewBike() {
   const secretKey = Uint8Array.from(secret);
   const serverKeypair = Keypair.fromSecretKey(secretKey);
 
-  async function handleSubmit(formData) {
-    const encryptedCombination = CryptoJS.AES.encrypt(
-      formData.combination,
-      process.env.NEXT_PUBLIC_ENCRYPTION_PHRASE
-    ).toString();
+  useEffect(() => {
+    const fetchBike = async () => {
+      const auctionHouse = await metaplex
+        .auctionHouse()
+        .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+      const bikeLazy = await metaplex
+        .auctionHouse()
+        .findListings({ auctionHouse, mint: new PublicKey(address) });
+      const tradeStateAddress = bikeLazy[0].tradeStateAddress;
+      const bike = await metaplex
+        .auctionHouse()
+        .findListingByTradeState({ tradeStateAddress, auctionHouse });
 
+      setBike(bike);
+
+      console.log(bike);
+    };
+    fetchBike();
+  }, [wallet]);
+
+  async function handleSubmit(formData) {
     const { uri } = await metaplex.nfts().uploadMetadata({
       name: formData.model,
       description: formData.description,
@@ -57,29 +72,28 @@ function NewBike() {
         { trait_type: "bike_type", value: formData.type },
         { trait_type: "city", value: formData.city },
         { trait_type: "price", value: formData.price },
-        { trait_type: "combination", value: encryptedCombination },
+        { trait_type: "combination", value: formData.combination },
       ],
     });
 
-    console.log("Creating bicycle NFT...");
-    const { nft } = await metaplex.nfts().create({
+    console.log("Updating bicycle NFT...");
+    await metaplex.nfts().update({
+      nftOrSft: bike.asset,
       uri: uri,
       name: formData.model,
-      sellerFeeBasisPoints: 0,
-      collection: new PublicKey(collectionCache.mintAddress),
       updateAuthority: serverKeypair,
     });
-    console.log("Bicycle NFT created.");
+    console.log("Bicycle NFT updated.");
 
-    console.log("Verify bicycle NFT...");
-    await verifySizedCollectionItem(connection, nft.metadataAddress);
-    console.log("Bicycle NFT verified.");
+    // console.log("Verify bicycle NFT...");
+    // await verifySizedCollectionItem(connection, nft.metadataAddress);
+    // console.log("Bicycle NFT verified.");
 
     console.log("Creating listing...");
     const createListingOutput = await createBikeListing(
       metaplex,
       wallet.publicKey,
-      nft.address,
+      bike.asset.address,
       dollarToSol(Number(formData.price))
     );
     console.log("Listing created.");
@@ -93,20 +107,22 @@ function NewBike() {
 
   return (
     <div className="flex justify-center my-16">
-      <BikeForm
-        formData={{
-          model: "",
-          type: "",
-          description: "",
-          imageUrl: "",
-          city: "",
-          price: "",
-          combination: "",
-        }}
-        handleSubmit={handleSubmit}
-      />
+      {bike && (
+        <BikeForm
+          formData={{
+            model: bike?.asset.json.name,
+            type: bike?.asset.json.attributes[0].value,
+            description: bike?.asset.json.description,
+            imageUrl: bike?.asset.json.image,
+            city: bike?.asset.json.attributes[1].value,
+            price: bike?.asset.json.attributes[2].value,
+            combination: "",
+          }}
+          handleSubmit={handleSubmit}
+        />
+      )}
     </div>
   );
 }
 
-export default NewBike;
+export default EditBike;

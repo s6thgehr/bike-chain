@@ -43,53 +43,44 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
   }
 
   return (
-    <div className="flex">
-      <div className="w-1/2">
-        <img src={listing.asset.json.image} alt="bike" className="w-full" />
+    <div className="grid grid-cols-3 m-8 bg-base-100">
+      <div className="aspect-[4/3]">
+        <img
+          src={listing.asset.json.image}
+          alt="bike"
+          className="w-full rounded-lg"
+        />
       </div>
-      <div className="w-1/2 mx-8 grid grid-rows-5 grid-flow-col gap-4">
-        <h2 className="pt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+      <div className="col-span-2 mx-8">
+        <h2 className="text-2xl font-bold tracking-tight text-base-content sm:text-3xl">
           {listing.asset.json.name}
         </h2>
-        <p className="">{listing.asset.json.description}</p>
+        <div className="badge badge-accent mb-4">
+          {listing.asset.json.attributes[0].value}
+        </div>
+        <p className="">
+          {listing.asset.json.description} asfjl l;asfjl asfjlka sdfjlaks;jf
+          lkasjf lkasdjflkasdjflkasj flkjasdlkf jaslkfjaslkfjasl kfjlaksj falsjf
+          lsajfl kasjflkasjfl jflsk
+        </p>
         <div className="flex flex-row">
-          <div className="basis-1/2 flex flex-col justify-between">
-            <div>
-              <div className="font-bold inline">City:</div>{" "}
-              {listing.asset.json.attributes[1].value}
+          <div className="basis-1/2 justify-between">
+            <div className="bg-white text-black h-40 w-80 text-center mt-8">
+              <img src="/maps.png" className="rounded-md" />
             </div>
-            <div className="mt-8">
+          </div>
+          <div>
+            <div className="my-8">
               <div className="font-bold inline">Price:</div> $
               {listing.asset.json.attributes[2].value}
             </div>
-          </div>
-          <div className="mx-4">
-            <div className="bg-white mx-auto px-4 text-black h-40 w-80 text-center">
-              Maps Location
-            </div>
-          </div>
-        </div>
-
-        <label
-          onClick={buy}
-          htmlFor="my-modal"
-          className="btn btn-secondary text-black"
-        >
-          Buy now
-        </label>
-
-        <input type="checkbox" id="my-modal" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">
-              Congratulations to your new bike!
-            </h3>
-            <p className="py-4">
-              The combination to unlock the bike lock is: 123456
-            </p>
-            <div className="modal-action">
-              <label htmlFor="my-modal" className="btn">
-                Yay!
+            <div>
+              <label
+                onClick={buy}
+                htmlFor="my-modal"
+                className="btn btn-secondary text-black"
+              >
+                Buy now
               </label>
             </div>
           </div>
