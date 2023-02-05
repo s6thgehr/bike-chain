@@ -100,8 +100,6 @@ Bicycle Chain was created with the vision of promoting a true sharing economy, w
 
 ### Built With
 
-* next.js
-* react.js
 * @solana/web3.js
 * @metaplex-foundation/mpl-auction-house
 
