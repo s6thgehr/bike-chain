@@ -90,7 +90,7 @@ This marketplace offers a convenient way for people to buy and sell bicycles, al
 
 During my last holidy I wanted to rent a bicycle for two weeks, only to find out that it would cost almost as much as buying one. So I thought why not buying a bicycle and trying to sell it at the end of my holiday? But what do I do with the bicycle if I don't find a buyer? I also don't want the stress of searching a buyer during my holiday. This inspired the creation of **Bicycle Chain** which allows for transactions to take place even when the seller has left the bicycle.
 
-I think a sharing economy is great because it can save resources. But how it works nowadays is that a company owns all these bicycles and lends them. They have the responsibility and ownership of these bicycles which allows them to make profits.
+I think a sharing economy is great because it can save resources. But the way it works nowadays is that a company owns all these bicycles and lends them. They have the responsibility and ownership of these bicycles which allows them to make profits.
 
 Bicycle Chain was created with the vision of promoting a true sharing economy, where individuals have ownership and the responsibility of the bicycle as long as they are using it.
 
