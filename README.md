@@ -32,7 +32,7 @@
     A marketplace for bicycles where you can sell your bicycle remotely.
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <a href="https://bike-chain.vercel.app/">View Demo</a>
   </p>
 </div>
 
