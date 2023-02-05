@@ -100,8 +100,8 @@ Bicycle Chain was created with the vision of promoting a true sharing economy, w
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
+* next.js
+* react.js
 * @solana/web3.js
 * @metaplex-foundation/mpl-auction-house
 
@@ -149,7 +149,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Use hHelius to fetch NFTs
+- [ ] Use Helius to fetch NFTs
 - [ ] Use Lit protocol for encryption
 - [ ] Think of better way of storing bicycle data
 - [ ] Write custom Solana program
@@ -194,7 +194,7 @@ Distributed under the Apache-2.0 license. See `LICENSE.txt` for more information
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@thgehr](https://twitter.com/thgehr)
+Thomas - [@thgehr](https://twitter.com/thgehr)
 
 Project Link: [https://github.com/s6thgehr/bike-chain](https://github.com/s6thgehr/bike-chain)
 
