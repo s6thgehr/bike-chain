@@ -6,11 +6,13 @@ import {
   walletAdapterIdentity,
 } from "@metaplex-foundation/js";
 import { PublicKey } from "@solana/web3.js";
+import { useRouter } from "next/router";
 import auctionHouseCache from "../../../blockend/auctionHouse/cache.json";
 
 export const DetailsView: FC<{ listing }> = ({ listing }) => {
   const wallet = useWallet();
   const { connection } = useConnection();
+  const router = useRouter();
 
   const metaplex = useMemo(
     () => Metaplex.make(connection).use(walletAdapterIdentity(wallet)),
@@ -40,6 +42,7 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
     };
 
     await metaplex.auctionHouse().buy(buyInput);
+    router.push("/your-bikes");
   }
 
   return (
@@ -58,11 +61,7 @@ export const DetailsView: FC<{ listing }> = ({ listing }) => {
         <div className="badge badge-accent mb-4">
           {listing.asset.json.attributes[0].value}
         </div>
-        <p className="">
-          {listing.asset.json.description} asfjl l;asfjl asfjlka sdfjlaks;jf
-          lkasjf lkasdjflkasdjflkasj flkjasdlkf jaslkfjaslkfjasl kfjlaksj falsjf
-          lsajfl kasjflkasjfl jflsk
-        </p>
+        <p className="">{listing.asset.json.description}</p>
         <div className="flex flex-row">
           <div className="basis-1/2 justify-between">
             <div className="bg-white text-black h-40 w-80 text-center mt-8">

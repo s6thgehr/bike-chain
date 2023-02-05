@@ -9,9 +9,9 @@ import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
 import { initializeKeypair } from "../../utils/initializeKeypair";
 import * as fs from "fs";
 
-const tokenName = "Bike-Chain NFT";
-const description = "Collection NFT of Bike NFTs";
-const symbol = "BKC";
+const tokenName = "Bicycle-Chain NFT";
+const description = "Collection NFT of Bicycle NFTs";
+const symbol = "BCC";
 const sellerFeeBasisPoints = 0;
 const imageFile = "collection.jpeg";
 

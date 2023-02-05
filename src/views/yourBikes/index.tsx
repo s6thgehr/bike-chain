@@ -31,49 +31,50 @@ export const YourBikesView: FC = ({}) => {
   );
 
   // TODO: Catch NFTs from collection and then check if they are listed instead of catching NFTs from auction house
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      const auctionHouse = await metaplex
-        .auctionHouse()
-        .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
-      const listingsLazy = await metaplex
-        .auctionHouse()
-        .findListings({ auctionHouse, seller: wallet.publicKey });
+  const fetchAccounts = async () => {
+    const auctionHouse = await metaplex
+      .auctionHouse()
+      .findByAddress({ address: new PublicKey(auctionHouseCache.address) });
+    const listingsLazy = await metaplex
+      .auctionHouse()
+      .findListings({ auctionHouse, seller: wallet.publicKey });
 
-      const listings = await Promise.all(
-        listingsLazy
-          .filter((l) => {
-            return l.purchaseReceiptAddress === null;
-          })
-          .map(async (l) => {
-            const tradeStateAddress = l.tradeStateAddress;
-            const listing = await metaplex
-              .auctionHouse()
-              .findListingByTradeState({ tradeStateAddress, auctionHouse });
-            // if (listing.canceledAt === null) {
-            //   return { ...listing.asset, forSale: true };
-            // } else {
-            //   return { ...listing.asset, forSale: false };
-            // }
-            return listing;
-          })
-      );
-      const purchasesLazy = await metaplex
-        .auctionHouse()
-        .findPurchases({ auctionHouse, buyer: wallet.publicKey });
-
-      const purchases = await Promise.all(
-        purchasesLazy.map(async (l) => {
-          const receiptAddress = l.receiptAddress;
+    const listings = await Promise.all(
+      listingsLazy
+        .filter((l) => {
+          return l.purchaseReceiptAddress === null;
+        })
+        .map(async (l) => {
+          const tradeStateAddress = l.tradeStateAddress;
           const listing = await metaplex
             .auctionHouse()
-            .findPurchaseByReceipt({ receiptAddress, auctionHouse });
-          // return { ...listing.asset, forSale: false };
+            .findListingByTradeState({ tradeStateAddress, auctionHouse });
+          // if (listing.canceledAt === null) {
+          //   return { ...listing.asset, forSale: true };
+          // } else {
+          //   return { ...listing.asset, forSale: false };
+          // }
           return listing;
         })
-      );
-      setOwnBikes([...listings, ...purchases]);
-    };
+    );
+    const purchasesLazy = await metaplex
+      .auctionHouse()
+      .findPurchases({ auctionHouse, buyer: wallet.publicKey });
+
+    const purchases = await Promise.all(
+      purchasesLazy.map(async (l) => {
+        const receiptAddress = l.receiptAddress;
+        const listing = await metaplex
+          .auctionHouse()
+          .findPurchaseByReceipt({ receiptAddress, auctionHouse });
+        // return { ...listing.asset, forSale: false };
+        return listing;
+      })
+    );
+    setOwnBikes([...listings, ...purchases]);
+  };
+
+  useEffect(() => {
     fetchAccounts();
   }, [wallet]);
 
@@ -88,6 +89,7 @@ export const YourBikesView: FC = ({}) => {
       auctionHouse, // The Auction House in which to cancel listing
       listing: l, // The listing to cancel
     });
+    fetchAccounts();
   };
 
   const listBike = async (bikeAddress) => {

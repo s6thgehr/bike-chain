@@ -1,8 +1,8 @@
 {
   "model": "auctionHouse",
-  "address": "A64ssYbqry4D99a85oRsGC2FHAmY7tfcEf3D94zcHh9a",
-  "creatorAddress": "4REuRbvFnSBzv8aTAyUZyHeZaSTnYUJei1u57UCLb6Nq",
-  "authorityAddress": "4REuRbvFnSBzv8aTAyUZyHeZaSTnYUJei1u57UCLb6Nq",
+  "address": "GJgfwhQjwMnT1tiFLqXwU11TnPLSpR1pJzf4DGeZR5kh",
+  "creatorAddress": "EbU7Bpd4LucAxLY37UJtpFv8Jd98aBsC3bUdRYW8Ljbr",
+  "authorityAddress": "EbU7Bpd4LucAxLY37UJtpFv8Jd98aBsC3bUdRYW8Ljbr",
   "treasuryMint": {
     "model": "mint",
     "address": "So11111111111111111111111111111111111111112",
@@ -16,10 +16,10 @@
     "isWrappedSol": true,
     "currency": { "symbol": "SOL", "decimals": 9, "namespace": "spl-token" }
   },
-  "feeAccountAddress": "EPd7iQbvvfj5sPTs64asa2YXFctL8LrzeVmxNgQ9a9ug",
-  "treasuryAccountAddress": "Bi5gEwz8vFxMmXMes3DR3bVE3VbpSPBFNckdPfG7Qjcf",
-  "feeWithdrawalDestinationAddress": "4REuRbvFnSBzv8aTAyUZyHeZaSTnYUJei1u57UCLb6Nq",
-  "treasuryWithdrawalDestinationAddress": "4REuRbvFnSBzv8aTAyUZyHeZaSTnYUJei1u57UCLb6Nq",
+  "feeAccountAddress": "9iJEdZf3y7gazmnr48fcrjbD4Ayxc3VVJJ5FPy2khxaZ",
+  "treasuryAccountAddress": "FZLZ3XaVtTGU2jjtCPNjG3gxBRbzhsCNNvcbtzU6KWks",
+  "feeWithdrawalDestinationAddress": "EbU7Bpd4LucAxLY37UJtpFv8Jd98aBsC3bUdRYW8Ljbr",
+  "treasuryWithdrawalDestinationAddress": "EbU7Bpd4LucAxLY37UJtpFv8Jd98aBsC3bUdRYW8Ljbr",
   "sellerFeeBasisPoints": 200,
   "requiresSignOff": false,
   "canChangeSalePrice": false,
