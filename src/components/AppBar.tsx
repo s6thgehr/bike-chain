@@ -22,7 +22,7 @@ export const AppBar: FC = () => {
             <svg
               className="inline-block w-6 h-6 stroke-current "
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill="fill-current"
               viewBox="0 0 24 24"
             >
               <path
