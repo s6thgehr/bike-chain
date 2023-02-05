@@ -21,9 +21,10 @@
 
 
 <!-- PROJECT LOGO -->
+![giphy.gif](/doc/giphy.gif)
 <br />
 <div align="center">
-  ![giphy.gif](/doc/giphy.gif)
+  
 
   <h3 align="center">Bicycle Chain</h3>
 
